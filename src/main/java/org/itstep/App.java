@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -30,12 +28,14 @@ public class App extends Application {
     public static final int HEIGHT_LEFT_RECTANGLE = HEIGHT_SCENE;
     public static final int WIDTH_RIGHT_RECTANGLE = (int) (WIDTH_SCENE * 0.3);
     public static final int HEIGHT_RIGHT_RECTANGLE = HEIGHT_SCENE;
-    public static final int WEIGHT_BUTTON = 175;
+    public static final int WIDTH_BUTTON = 175;
     public static final int HEIGHT_BUTTON = 35;
-    public static final int WEIGHT_LABEL = 175;
-    public static final int HEIGHT_LABEL = 35;
-    public static final int WEIGHT_TEXT_FIELD  = 175;
+    public static final int WIDTH_TEXT_FIELD = 175;
     public static final int HEIGHT_TEXT_FIELD  = 35;
+    public static final int WIDTH_LABEL = 175;
+    public static final int HEIGHT_LABEL = 35;
+    public static final int WIDTH_LABEL_BLACK_JACK = 400;
+    public static final int HEIGHT_LABEL_BLACK_JACK = 100;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -69,23 +69,25 @@ public class App extends Application {
         imageView.relocate(10, 50);*/
 
         //статический текст - label
-        Label labelDealer = getLabel("Dealer: 0", (WIDTH_LEFT_RECTANGLE - WEIGHT_LABEL) / 2,
+        Label labelDealer = getLabel("Dealer: 0", (WIDTH_LEFT_RECTANGLE - WIDTH_LABEL) / 2,
                 (int)(HEIGHT_SCENE * 0.03));
-        Label labelPlayer = getLabel("Player: 0", (WIDTH_LEFT_RECTANGLE - WEIGHT_LABEL) / 2,
+        Label labelPlayer = getLabel("Player: 0", (WIDTH_LEFT_RECTANGLE - WIDTH_LABEL) / 2,
                 (int)((HEIGHT_SCENE - HEIGHT_LABEL) * 0.97));
-        Label labelCash = getLabel("Cash: 1000", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_LABEL) / 2,
+        Label labelCash = getLabel("Cash: 1000", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WIDTH_LABEL) / 2,
                 (int)(HEIGHT_SCENE * 0.03));
-        Label labelBet = getLabel("BET",WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_LABEL) / 2,
+        Label labelBet = getLabel("BET",WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WIDTH_LABEL) / 2,
                 (int)(HEIGHT_SCENE * 0.55));
+        Label labelBlackJack = getLabelBlackJack("Black Jack",(WIDTH_LEFT_RECTANGLE - WIDTH_LABEL_BLACK_JACK) / 2,
+                (HEIGHT_SCENE - HEIGHT_LABEL_BLACK_JACK) / 2 );
 
         //Поле ввода
-        TextField textFieldRate = getTextField("100", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_TEXT_FIELD) / 2,
+        TextField textFieldRate = getTextField("100", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WIDTH_TEXT_FIELD) / 2,
                 (int)(HEIGHT_SCENE * 0.6));
 
 
 
         //Кнопка
-        int indentWightButton = WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_BUTTON) / 2;
+        int indentWightButton = WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WIDTH_BUTTON) / 2;
         Button buttonHIT = getButton("HIT", indentWightButton, (int)(HEIGHT_SCENE * 0.25));
         Button buttonSTAND = getButton("STAND", indentWightButton, (int)(HEIGHT_SCENE * 0.35));
         Button buttonPLAY = getButton("PLAY", indentWightButton, (int)(HEIGHT_SCENE * 0.85));
@@ -102,6 +104,7 @@ public class App extends Application {
         rootNode.getChildren().add(labelPlayer);
         rootNode.getChildren().add(labelCash);
         rootNode.getChildren().add(labelBet);
+        rootNode.getChildren().add(labelBlackJack);
         rootNode.getChildren().add(textFieldRate);;
         rootNode.getChildren().add(buttonHIT);
         rootNode.getChildren().add(buttonSTAND);
@@ -159,7 +162,7 @@ public class App extends Application {
 
     private Button getButton(String name, int x, int y){
         Button button = new Button(name);
-        button.setMinSize(WEIGHT_BUTTON, HEIGHT_BUTTON);
+        button.setMinSize(WIDTH_BUTTON, HEIGHT_BUTTON);
         button.relocate(x, y);
         button.setStyle("-fx-text-fill: black; -fx-background-radius: 10; -fx-background-color: grey");
         return button;
@@ -167,16 +170,25 @@ public class App extends Application {
 
     private Label getLabel(String str, int x, int y){
         Label label = new Label(str);
-        label.setMinSize(WEIGHT_LABEL, HEIGHT_LABEL);
+        label.setMinSize(WIDTH_LABEL, HEIGHT_LABEL);
         label.relocate(x,y);
         label.setFont(Font.font("Arial", 20));
         label.setStyle("-fx-text-fill: white; -fx-alignment: center");
         return label;
     }
 
+    private Label getLabelBlackJack(String str, int x, int y){
+        Label label = new Label(str);
+        label.setMinSize(WIDTH_LABEL_BLACK_JACK, HEIGHT_LABEL_BLACK_JACK);
+        label.relocate(x,y);
+        label.setFont(Font.font("Arial", 75));
+        label.setStyle("-fx-text-fill: white; -fx-alignment: center");
+        return label;
+    }
+
     private TextField getTextField(String str, int x, int y){
         TextField textField = new TextField(str);
-        textField.setMinSize(WEIGHT_TEXT_FIELD, HEIGHT_TEXT_FIELD);
+        textField.setMinSize(WIDTH_TEXT_FIELD, HEIGHT_TEXT_FIELD);
         textField.setStyle("-fx-alignment: center");
         textField.relocate(x, y);
         return textField;
