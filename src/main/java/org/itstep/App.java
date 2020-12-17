@@ -3,7 +3,6 @@ package org.itstep;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,27 +12,30 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.CharBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 public class App extends Application {
+
+    public static final int WIDTH_SCENE = 1000;
+    public static final int HEIGHT_SCENE = 800;
+    public static final int WIDTH_LEFT_RECTANGLE =  (int) (WIDTH_SCENE * 0.7);
+    public static final int HEIGHT_LEFT_RECTANGLE = HEIGHT_SCENE;
+    public static final int WIDTH_RIGHT_RECTANGLE = (int) (WIDTH_SCENE * 0.3);
+    public static final int HEIGHT_RIGHT_RECTANGLE = HEIGHT_SCENE;
+    public static final int WEIGHT_BUTTON = 175;
+    public static final int HEIGHT_BUTTON = 35;
+    public static final int WEIGHT_LABEL = 175;
+    public static final int HEIGHT_LABEL = 35;
+    public static final int WEIGHT_TEXT_FIELD  = 175;
+    public static final int HEIGHT_TEXT_FIELD  = 35;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -46,50 +48,70 @@ public class App extends Application {
 //        logoView.setFitWidth(100);
 //
 //        playAnimation(logoView);
-        /*Pane rootNode = new Pane();
+        Pane rootNode = new Pane();
+//        Pane rootNode = FXMLLoader.load(new URL(pathToCard("win.fxml")));
 
-        Rectangle rectangle = new Rectangle(800, 600);
-        rectangle.setFill(Color.RED);
+        //прямоугольник
+        Rectangle rectangleBlack = new Rectangle(WIDTH_LEFT_RECTANGLE, HEIGHT_LEFT_RECTANGLE);
+        rectangleBlack.relocate(0,0);
+        rectangleBlack.setFill(Color.BLACK);
 
-
-        //статический текст - lable
-        Label label = new Label("Hello World");
-        label.setFont(Font.font("Arial", 25));
-        label.relocate(10, 10);
+        Rectangle rectangleGreen = new Rectangle(WIDTH_RIGHT_RECTANGLE, HEIGHT_RIGHT_RECTANGLE);
+        rectangleGreen.relocate(WIDTH_LEFT_RECTANGLE,0);
+        rectangleGreen.setFill(Color.GREEN);
 
         //Изображения
-        Image image = new Image(pathToCard("cards/ace_of_clubs.png"));
-        //Ужзел для отображения изображений
+        /*Image image = new Image(pathToCard("cards/ace_of_clubs.png"));
+        //Узел для отображения изображений
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(200);
-        imageView.relocate(10, 50);
+        imageView.relocate(10, 50);*/
 
-        //Кнопка
-        Button button = new Button("Push me");
-        button.relocate(200, 10);
-        button.setBackground(new Background((new BackgroundFill(Color.GREEN, null, null))));
-        button.setStyle("-fx-text-fill: white");
+        //статический текст - label
+        Label labelDealer = getLabel("Dealer: 0", (WIDTH_LEFT_RECTANGLE - WEIGHT_LABEL) / 2,
+                (int)(HEIGHT_SCENE * 0.03));
+        Label labelPlayer = getLabel("Player: 0", (WIDTH_LEFT_RECTANGLE - WEIGHT_LABEL) / 2,
+                (int)((HEIGHT_SCENE - HEIGHT_LABEL) * 0.97));
+        Label labelCash = getLabel("Cash: 1000", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_LABEL) / 2,
+                (int)(HEIGHT_SCENE * 0.03));
+        Label labelBet = getLabel("BET",WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_LABEL) / 2,
+                (int)(HEIGHT_SCENE * 0.55));
 
         //Поле ввода
-        TextField textField = new TextField();
-        textField.relocate(10, 300);
+        TextField textFieldRate = getTextField("100", WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_TEXT_FIELD) / 2,
+                (int)(HEIGHT_SCENE * 0.6));
 
+
+
+        //Кнопка
+        int indentWightButton = WIDTH_LEFT_RECTANGLE + (WIDTH_RIGHT_RECTANGLE - WEIGHT_BUTTON) / 2;
+        Button buttonHIT = getButton("HIT", indentWightButton, (int)(HEIGHT_SCENE * 0.25));
+        Button buttonSTAND = getButton("STAND", indentWightButton, (int)(HEIGHT_SCENE * 0.35));
+        Button buttonPLAY = getButton("PLAY", indentWightButton, (int)(HEIGHT_SCENE * 0.85));
+
+        //нажатие кнопки
+        /*
         button.setOnAction(event -> {
             button.setText("Text field: " + textField.getText());
-        });
+        });*/
 
-        rootNode.getChildren().add(rectangle);
-        rootNode.getChildren().add(label);
-        rootNode.getChildren().add(imageView);
-        rootNode.getChildren().add(button);
-        rootNode.getChildren().add(textField);*/
+        rootNode.getChildren().add(rectangleBlack);
+        rootNode.getChildren().add(rectangleGreen);
+        rootNode.getChildren().add(labelDealer);
+        rootNode.getChildren().add(labelPlayer);
+        rootNode.getChildren().add(labelCash);
+        rootNode.getChildren().add(labelBet);
+        rootNode.getChildren().add(textFieldRate);;
+        rootNode.getChildren().add(buttonHIT);
+        rootNode.getChildren().add(buttonSTAND);
+        rootNode.getChildren().add(buttonPLAY);
+        //rootNode.getChildren().add(imageView);
 
-        Pane rootNode = FXMLLoader.load(new URL(pathToCard("win.fxml")));
 
-        Scene scene = new Scene(rootNode, 800, 600);
+        Scene scene = new Scene(rootNode, WIDTH_SCENE, HEIGHT_SCENE);
         stage.setScene(scene);
-        stage.setTitle("Simple application in JavaFX");
+        stage.setTitle("Black Jack");
         stage.getIcons().add(new Image("icon.png"));
         stage.show();
     }
@@ -135,4 +157,28 @@ public class App extends Application {
         launch();
     }
 
+    private Button getButton(String name, int x, int y){
+        Button button = new Button(name);
+        button.setMinSize(WEIGHT_BUTTON, HEIGHT_BUTTON);
+        button.relocate(x, y);
+        button.setStyle("-fx-text-fill: black; -fx-background-radius: 10; -fx-background-color: grey");
+        return button;
+    }
+
+    private Label getLabel(String str, int x, int y){
+        Label label = new Label(str);
+        label.setMinSize(WEIGHT_LABEL, HEIGHT_LABEL);
+        label.relocate(x,y);
+        label.setFont(Font.font("Arial", 20));
+        label.setStyle("-fx-text-fill: white; -fx-alignment: center");
+        return label;
+    }
+
+    private TextField getTextField(String str, int x, int y){
+        TextField textField = new TextField(str);
+        textField.setMinSize(WEIGHT_TEXT_FIELD, HEIGHT_TEXT_FIELD);
+        textField.setStyle("-fx-alignment: center");
+        textField.relocate(x, y);
+        return textField;
+    }
 }
